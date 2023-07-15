@@ -1,0 +1,11 @@
+[Unit]
+Description=LDAP Service using glauth
+
+[Service]
+User=root
+WorkingDirectory=/opt/glauth
+ExecStart=/opt/glauth/glauth -c /opt/glauth/config.cfg
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

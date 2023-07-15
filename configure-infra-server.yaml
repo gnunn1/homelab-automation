@@ -2,9 +2,12 @@
   hosts: infra-server
   vars:
     infra_server_hostname: infra-server
+  vars_files:
+    -  vars/glauth.yaml
 
   roles:
     - {role: aur-builder-user}
     - {role: install-pkgs}
     - {role: install-pi-hole}
     - {role: install-haproxy}
+    - {role: install-glauth}

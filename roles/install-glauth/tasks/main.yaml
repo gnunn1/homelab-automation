@@ -1,0 +1,74 @@
+- name: Hash openshift password
+  shell: echo -n "{{openshift_password}}" | openssl dgst -sha256
+  register: temp
+
+- name: Get hash
+  set_fact:
+    openshift_password_hashed: "{{ temp.stdout_lines[0][17:] }}"
+
+- name: Hash openshift password
+  shell: echo -n "{{admin_password}}" | openssl dgst -sha256
+  register: temp
+
+- name: Get hash
+  set_fact:
+    admin_password_hashed: "{{ temp.stdout_lines[0][17:] }}"
+
+- name: Hash openshift password
+  shell: echo -n "{{user_password}}" | openssl dgst -sha256
+  register: temp
+
+- name: Get hash
+  set_fact:
+    user_password_hashed: "{{ temp.stdout_lines[0][17:] }}"
+
+- name: Make directory for glauth
+  ansible.builtin.file:
+    path: /opt/glauth
+    state: directory
+    mode: '0755'
+  become: yes
+
+- name: Download glauth
+  ansible.builtin.get_url:
+    url: https://github.com/glauth/glauth/releases/download/v2.2.0/glauth-linux-amd64
+    dest: /opt/glauth/glauth
+    mode: '0755'
+  become: yes
+
+- name: Create temporary folder
+  tempfile:
+    state: directory
+  register: temp_file_path
+  delegate_to: localhost
+
+- debug:
+    msg: "Temp path {{ temp_file_path.path }}"
+
+- name: "Template glauth files to temp directory"
+  template:
+    src: "{{ item }}"
+    dest: "{{ temp_file_path.path }}/{{ item | basename | regex_replace('.j2$', '') }}"
+  loop: "{{ query('fileglob', '../templates/*') }}"
+  delegate_to: localhost
+
+- name: "Sync glauth files to the destination"
+  synchronize:
+    src: "{{ temp_file_path.path }}/"
+    dest: "/opt/glauth"
+  become: yes
+
+- name: Copy glauth systemd service
+  synchronize:
+    src: ./etc/systemd/system/glauth.service
+    dest: /etc/systemd/system/glauth.service
+    rsync_opts:
+    - "--chown=root:root"
+  become: yes
+
+- name: Start and enable glauth service
+  systemd:
+    name: glauth.service
+    enabled: true
+    state: started
+  become: yes
