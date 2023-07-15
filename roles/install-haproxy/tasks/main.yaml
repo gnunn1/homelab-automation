@@ -1,0 +1,21 @@
+- name: install haproxy
+  kewlfft.aur.aur:
+    name: haproxy
+    state: present
+  become: yes
+  become_user: aur_builder
+
+- name: copy haproxy configuration
+  synchronize:
+    src: ./etc/haproxy/haproxy.cfg
+    dest: /etc/haproxy/haproxy.cfg
+    rsync_opts:
+    - "--chown=root:root"
+  become: yes
+
+- name: Start and enable haproxy service
+  systemd:
+    name: haproxy.service
+    enabled: true
+    state: started
+  become: yes

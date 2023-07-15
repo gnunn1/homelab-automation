@@ -1,0 +1,10 @@
+- name: Configure infra-server
+  hosts: infra-server
+  vars:
+    infra_server_hostname: infra-server
+
+  roles:
+    - {role: aur-builder-user}
+    - {role: install-pkgs}
+    - {role: install-pi-hole}
+    - {role: install-haproxy}

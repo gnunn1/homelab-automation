@@ -1,0 +1,15 @@
+- name: Install yay using makepkg if it isn't installed already
+  kewlfft.aur.aur:
+    name: yay
+    use: makepkg
+    state: present
+  become: yes
+  become_user: aur_builder
+
+# Needed to support syncrhonize task
+- name: install rsync
+  kewlfft.aur.aur:
+    name: rsync
+    state: present
+  become: yes
+  become_user: aur_builder

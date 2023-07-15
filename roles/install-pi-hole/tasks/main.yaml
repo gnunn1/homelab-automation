@@ -1,0 +1,102 @@
+- name: install pi.hole
+  kewlfft.aur.aur:
+    name: pi-hole-server
+    state: present
+  become: yes
+  become_user: aur_builder
+
+- name: install pi-hole-ftl
+  kewlfft.aur.aur:
+    name: pi-hole-ftl
+    state: present
+  become: yes
+  become_user: aur_builder
+
+- name: update hosts file
+  lineinfile:
+    dest: /etc/hosts
+    line: "{{ item }}"
+    state: present
+  loop:
+    - "127.0.0.1 localhost"
+    - "192.168.1.2 pi.hole {{ infra_server_hostname }}"
+  become: yes
+
+- name: copy openshift dns-masq configuration
+  synchronize:
+    src: ./etc/dnsmasq.d/02-openshift.conf
+    dest: /etc/dnsmasq.d/02-openshift.conf
+    rsync_opts:
+    - "--chown=root:root"
+  become: yes
+
+- name: disable pi.hole rate limit
+  lineinfile:
+    dest: /etc/pihole/pihole-FTL.conf
+    line: "RATE_LIMIT=0/0"
+    state: present
+  become: yes
+
+- name: install php-sqlite
+  kewlfft.aur.aur:
+    name: php-sqlite
+    state: present
+  become: yes
+  become_user: aur_builder
+
+- name: install lighttpd
+  kewlfft.aur.aur:
+    name: lighttpd
+    state: present
+  become: yes
+  become_user: aur_builder
+
+- name: Copy lighttpd config file from pi.hole
+  ansible.builtin.copy:
+    src: /usr/share/pihole/configs/lighttpd.example.conf
+    dest: /etc/lighttpd/lighttpd.conf
+    remote_src: yes
+  become: yes
+
+- name: Set lighttpd port to 8080
+  replace:
+    path: /etc/lighttpd/external.conf
+    regexp: 'server.port[[:blank:]]\+=80'
+    replace: "server.port = 8080"
+
+# This does not work for some reason
+# - name: Set lighttpd port to 8080
+#   synchronize:
+#     src: ./etc/lighttpd/external.conf
+#     dest: /etc/lighttpd/external.conf
+#     rsync_opts:
+#     - "--chown=root:root"
+#   become: yes
+
+- name: install php-cgi
+  kewlfft.aur.aur:
+    name: php-cgi
+    state: present
+  become: yes
+  become_user: aur_builder
+
+- name: Set open_basedir for PHP
+  become: true
+  ini_file:
+    dest: /etc/php/php.ini
+    section: "PHP"
+    option: "open_basedir"
+    value: "/srv/http/pihole:/run/pihole-ftl/pihole-FTL.port:/run/log/pihole/pihole.log:/run/log/pihole-ftl/pihole-FTL.log:/etc/pihole:/etc/hosts:/etc/hostname:/etc/dnsmasq.d/02-pihole-dhcp.conf:/etc/dnsmasq.d/03-pihole-wildcard.conf:/etc/dnsmasq.d/04-pihole-static-dhcp.conf:/var/log/lighttpd/error-pihole.log:/proc/loadavg:/proc/meminfo:/proc/cpuinfo:/sys/class/thermal/thermal_zone0/temp:/tmp"
+
+- name: Start pi-hole
+  systemd:
+    name: pihole-FTL.service
+    state: started
+  become: yes
+
+- name: Enable lighttpd
+  systemd:
+    name: lighttpd.service
+    enabled: true
+    state: started
+  become: yes
