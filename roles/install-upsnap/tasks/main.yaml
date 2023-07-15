@@ -20,8 +20,8 @@
 
 - name: Copy backup to upsnap
   synchronize:
-    src: ./opt/upsnap/upsnap-backup-config.zip
-    dest: /opt/upsnap/upsnap-backup-config.zip
+    src: ./opt/upsnap/pb_data/backups/
+    dest: /opt/upsnap/pb_data/backups/
     rsync_opts:
     - "--chown=root:root"
   become: yes
