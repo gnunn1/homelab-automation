@@ -1,0 +1,11 @@
+[Unit]
+Description=upsnap wake-on-lan service
+
+[Service]
+User=root
+WorkingDirectory=/opt/upsnap
+ExecStart=/opt/upsnap/upsnap serve --http=0.0.0.0:8090
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

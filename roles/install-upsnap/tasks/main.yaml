@@ -1,0 +1,46 @@
+- name: Make directory for upsnap
+  ansible.builtin.file:
+    path: /opt/upsnap
+    state: directory
+    mode: '0755'
+  become: yes
+
+- name: Download upsnap
+  ansible.builtin.get_url:
+    url: https://github.com/seriousm4x/UpSnap/releases/download/3.3.0/UpSnap_3.3.0_linux_amd64.zip
+    dest: /tmp/upsnap.zip
+  become: yes
+
+- name: Unzip upsnap
+  ansible.builtin.unarchive:
+    src: /tmp/upsnap.zip
+    dest: /opt/upsnap
+    remote_src: yes
+  become: yes
+
+- name: Copy backup to upsnap
+  synchronize:
+    src: ./opt/upsnap/upsnap-backup-config.zip
+    dest: /opt/upsnap/upsnap-backup-config.zip
+    rsync_opts:
+    - "--chown=root:root"
+  become: yes
+
+
+- name: Copy upsnap systemd service
+  synchronize:
+    src: ./etc/systemd/system/upsnap.service
+    dest: /etc/systemd/system/upsnap.service
+    rsync_opts:
+    - "--chown=root:root"
+  become: yes
+
+- name: Start and enable upsnap service
+  systemd:
+    name: upsnap.service
+    enabled: true
+    state: started
+  become: yes
+
+- name: Create admin user
+  shell: /opt/upsnap/upsnap admin create {{ upsnap_admin_username }} {{ upsnap_admin_password }}

@@ -3,7 +3,7 @@
   vars:
     infra_server_hostname: infra-server
   vars_files:
-    -  vars/glauth.yaml
+    -  vars/protected.yaml
 
   roles:
     - {role: aur-builder-user}
@@ -11,3 +11,4 @@
     - {role: install-pi-hole}
     - {role: install-haproxy}
     - {role: install-glauth}
+    - {role: install-upsnap}
