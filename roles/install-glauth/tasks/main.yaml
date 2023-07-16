@@ -42,9 +42,6 @@
   register: temp_file_path
   delegate_to: localhost
 
-- debug:
-    msg: "Temp path {{ temp_file_path.path }}"
-
 - name: "Template glauth files to temp directory"
   template:
     src: "{{ item }}"
