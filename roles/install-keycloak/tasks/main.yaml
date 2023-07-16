@@ -1,0 +1,90 @@
+- name: install keycloak
+  kewlfft.aur.aur:
+    name: keycloak
+    state: present
+  become: yes
+  become_user: aur_builder
+
+- name: "Create keycloak database"
+  postgresql_db:
+    state: present
+    name: "keycloak"
+  become: yes
+  become_user: postgres
+
+- name: "Create db user"
+  postgresql_user:
+    state: present
+    name: "{{ keycloak_db_username }}"
+    password: "{{ keycloak_db_password }}"
+  become: yes
+  become_user: postgres
+
+- name: "Grant db user access to app db"
+  postgresql_privs:
+    type: database
+    database: keycloak
+    roles: "{{ keycloak_db_username }}"
+    grant_option: no
+    privs: all
+  become: yes
+  become_user: postgres
+
+- name: "Allow md5 connection for the db user"
+  postgresql_pg_hba:
+    dest: "/var/lib/postgres/data/pg_hba.conf"
+    contype: host
+    databases: all
+    method: md5
+    users: "{{ keycloak_db_username }}"
+    create: true
+  become: yes
+  become_user: postgres
+
+- name: Restart postgresql
+  systemd:
+    service: postgresql.service
+    state: restarted
+  become: yes
+
+- name: Make directory for keycloak.service.d
+  ansible.builtin.file:
+    path: /etc/systemd/system/keycloak.service.d
+    state: directory
+    mode: '0755'
+  become: yes
+
+- name: "Create temporary directory"
+  tempfile:
+    state: directory
+  register: temp_file_path
+
+- name: Template keycloak files
+  template:
+    src: "{{ item.src }}"
+    dest: "/{{ item.path }}"
+    force: yes
+  with_community.general.filetree: templates/
+  when: item.state == 'file'
+  become: yes
+
+- name: Start keycloak to set admin user
+  systemd:
+    service: keycloak.service
+    daemon_reload: true
+    state: started
+  become: yes
+
+- name: Delete admin override
+  ansible.builtin.file:
+    path: /etc/systemd/system/keycloak.service.d
+    state: absent
+  become: yes
+
+- name: Restart keycloak to set admin user
+  systemd:
+    service: keycloak.service
+    daemon_reload: true
+    state: restarted
+    enabled: true
+  become: yes
