@@ -1,3 +1,11 @@
+- name: Change permissions on certificates
+  file:
+    path: /etc/ssl/sso.ocplab.com
+    owner: root
+    group: root
+    mode: 0775
+    recurse: true
+
 - name: install keycloak
   kewlfft.aur.aur:
     name: keycloak

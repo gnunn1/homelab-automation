@@ -16,6 +16,6 @@
     - {role: install-haproxy}
     - {role: install-glauth}
     - {role: install-upsnap}
-    # - {role: mprahl.lets-encrypt-route-53, become: yes}
+    - {role: mprahl.lets-encrypt-route-53, become: yes}
     - {role: install-postgresql}
     - {role: install-keycloak}
