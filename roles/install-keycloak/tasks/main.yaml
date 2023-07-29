@@ -17,6 +17,7 @@
     state: present
     name: "{{ keycloak_db_username }}"
     password: "{{ keycloak_db_password }}"
+    role_attr_flags: CREATEDB,NOSUPERUSER
   become: yes
   become_user: postgres
 
@@ -66,6 +67,11 @@
     force: yes
   with_community.general.filetree: templates/
   when: item.state == 'file'
+  become: yes
+
+- name: Build keycloak
+  shell:
+    cmd: /usr/bin/kc.sh -cf /etc/keycloak/keycloak.conf build
   become: yes
 
 - name: Start keycloak to set admin user
