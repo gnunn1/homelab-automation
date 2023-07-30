@@ -13,6 +13,19 @@
     - "--chown=root:root"
   become: yes
 
+# HAProxy requires you either combine public and private key
+# or relies on naming convention to find key, this creates a symlink
+# to fit HAProxy naming convention
+- name: Symlink certificates
+  ansible.builtin.file:
+    src: /etc/ssl/{{ item }}/{{ item }}.key
+    dest: /etc/ssl/{{ item }}/{{ item }}.pem.key
+    state: link
+  become: yes
+  with_items:
+  - uptime.ocplab.com
+  - sso.ocplab.com
+
 - name: Start and enable haproxy service
   systemd:
     name: haproxy.service

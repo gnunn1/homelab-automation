@@ -1,0 +1,13 @@
+- name: install uptime-kuma
+  kewlfft.aur.aur:
+    name: uptime-kuma
+    state: present
+  become: yes
+  become_user: aur_builder
+
+- name: Start and enable haproxy service
+  systemd:
+    name: uptime-kuma.service
+    enabled: true
+    state: started
+  become: yes
