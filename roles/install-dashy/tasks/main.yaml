@@ -1,0 +1,38 @@
+- name: install packages for dashy
+  kewlfft.aur.aur:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - podman
+  become: yes
+  become_user: aur_builder
+
+- name: Make directory for dashy
+  ansible.builtin.file:
+    path: /var/log/dashy
+    state: directory
+    mode: '0755'
+  become: yes
+
+- name: Copy dashy systemd service
+  synchronize:
+    src: ./etc/systemd/system/dashy.service
+    dest: /etc/systemd/system/dashy.service
+    rsync_opts:
+    - "--chown=root:root"
+  become: yes
+
+- name: Copy dashy configuration
+  synchronize:
+    src: ./var/local/dashy/ocplab-conf.yml
+    dest: /var/local/dashy/ocplab-conf.yml
+    rsync_opts:
+    - "--chown=root:root"
+  become: yes
+
+- name: Start and enable dashy service
+  systemd:
+    name: dashy.service
+    enabled: true
+    state: started
+  become: yes

@@ -12,6 +12,7 @@
   roles:
     - {role: aur-builder-user}
     - {role: install-pkgs}
+    - {role: install-dashy}
     - {role: install-pi-hole}
     - {role: install-haproxy}
     - {role: install-glauth}
