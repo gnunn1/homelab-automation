@@ -29,6 +29,14 @@
     - "--chown=root:root"
   become: yes
 
+- name: copy sso dns-masq configuration
+  synchronize:
+    src: ./etc/dnsmasq.d/02-sso.conf
+    dest: /etc/dnsmasq.d/02-sso.conf
+    rsync_opts:
+    - "--chown=root:root"
+  become: yes
+
 - name: disable pi.hole rate limit
   lineinfile:
     dest: /etc/pihole/pihole-FTL.conf
