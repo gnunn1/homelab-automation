@@ -1,0 +1,11 @@
+[Unit]
+Description=Homepage dashboard
+
+[Service]
+User=root
+WorkingDirectory=/opt/upsnap
+ExecStart=podman run -p 7080:3000 -v /var/local/homepage:/app/config --name homepage --restart=always ghcr.io/gethomepage/homepage:latest
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

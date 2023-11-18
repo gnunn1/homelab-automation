@@ -9,15 +9,16 @@
     -  vars/protected.yaml
 
   roles:
-    - {role: aur-builder-user}
-    - {role: install-pkgs}
-    - {role: install-pi-hole}
-    - {role: install-haproxy}
-    - {role: install-glauth}
-    - {role: install-upsnap}
-    - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: sso.ocplab.com, become: yes}
-    - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: uptime.ocplab.com, become: yes}
-    - {role: install-postgresql}
-    - {role: install-keycloak}
-    - {role: install-dashy}
-    - {role: install-uptime-kuma}
+    # - {role: aur-builder-user}
+    # - {role: install-pkgs}
+    # - {role: install-pi-hole}
+    # - {role: install-haproxy}
+    # - {role: install-glauth}
+    # - {role: install-upsnap}
+    # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: sso.ocplab.com, become: yes}
+    # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: uptime.ocplab.com, become: yes}
+    # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: ocplab.com, become: yes}
+    # - {role: install-postgresql}
+    # - {role: install-keycloak}
+    # - {role: install-uptime-kuma}
+    - {role: install-homepage}

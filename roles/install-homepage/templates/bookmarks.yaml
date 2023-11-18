@@ -1,0 +1,25 @@
+- GitHub:
+    - GitOps:
+        - href: https://github.com/gnunn-gitops
+          description: github.com/gnunn-gitops
+          icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/github-light.png
+    - GitOps Examples:
+        - href: https://github.com/gitops-examples
+          description: github.com/gitops-examples
+          icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/github-light.png
+    - Red Hat GitOps CoP:
+        - href: https://github.com/redhat-cop/gitops-catalog
+          description: github.com/redhat-cop/gitops-catalog
+          icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/github-light.png
+    - Personal:
+        - href: https://github.com/gnunn1
+          description: github.com/gnunn1
+          icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/github-light.png
+
+- Red Hat:
+    - Customer Portal:
+        - href: https://access.redhat.com
+          icon: https://cdn0.iconfinder.com/data/icons/flat-round-system/512/redhat-512.png
+    - Catalog:
+        - href: https://catalog.redhat.com
+          icon: https://cdn0.iconfinder.com/data/icons/flat-round-system/512/redhat-512.png

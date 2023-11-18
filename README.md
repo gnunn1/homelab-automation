@@ -2,6 +2,10 @@
 
 Ansible playbook for configuring various aspects of my homelab environment.
 
+### Install
+
+`ansible-galaxy role install mprahl.lets-encrypt-route-53`
+
 ### infra-server
 
 The infra server is the system which runs 24/7 and hosts a variety of processes including:

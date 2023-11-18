@@ -1,0 +1,62 @@
+- name: install packages for homepage
+  kewlfft.aur.aur:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - podman
+  become: yes
+  become_user: aur_builder
+
+- name: Make directory for homepage
+  ansible.builtin.file:
+    path: /var/local/homepage
+    state: directory
+    mode: '0755'
+  become: yes
+
+- name: Copy homepage systemd service
+  synchronize:
+    src: ./etc/systemd/system/homepage.service
+    dest: /etc/systemd/system/homepage.service
+    rsync_opts:
+    - "--chown=root:root"
+  become: yes
+
+- name: Create temporary folder
+  tempfile:
+    state: directory
+  register: temp_file_path
+  delegate_to: localhost
+
+- name: Copy homepage configuration
+  template:
+    src: "{{ item }}"
+    dest: "{{ temp_file_path.path }}/{{ item | basename | regex_replace('.j2$', '') }}"
+  loop: "{{ query('fileglob', '../templates/*') }}"
+  delegate_to: localhost
+
+- name: "Sync homepage config files to the destination"
+  synchronize:
+    src: "{{ temp_file_path.path }}/"
+    dest: "/var/local/homepage"
+  become: yes
+
+# - name: Copy homepage configuration
+#   synchronize:
+#     src: ./var/local/homepage/{{ item }}
+#     dest: /var/local/homepage/{{ item }}
+#     rsync_opts:
+#     - "--chown=root:root"
+#   become: yes
+#   with_items:
+#     - settings.yaml
+#     - services.yaml
+#     - kubernetes.yaml
+#     - widgets.yaml
+
+- name: Start and enable homepage service
+  systemd:
+    name: homepage.service
+    enabled: true
+    state: started
+  become: yes

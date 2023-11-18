@@ -7,11 +7,14 @@
 
 - name: copy haproxy configuration
   synchronize:
-    src: ./etc/haproxy/haproxy.cfg
-    dest: /etc/haproxy/haproxy.cfg
+    src: ./etc/haproxy/{{ item }}
+    dest: /etc/haproxy/{{ item }}
     rsync_opts:
     - "--chown=root:root"
   become: yes
+  with_items:
+    - haproxy.cfg
+    - crt-list.txt
 
 # HAProxy requires you either combine public and private key
 # or relies on naming convention to find key, this creates a symlink
@@ -25,6 +28,7 @@
   with_items:
   - uptime.ocplab.com
   - sso.ocplab.com
+  - ocplab.com
 
 - name: Start and enable haproxy service
   systemd:
