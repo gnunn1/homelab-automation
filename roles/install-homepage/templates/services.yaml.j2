@@ -2,69 +2,53 @@
     - OpenShift:
         href: https://console-openshift-console.apps.home.ocplab.com
         icon: https://gexperts.com/img/openshift.png
+        siteMonitor: https://console-openshift-console.apps.home.ocplab.com
         description: Kubernetes
-        # widget:
-        #   type: kubernetes
-        #   cluster:
-        #     show: true
-        #     cpu: true
-        #     memory: true
-        #   nodes:
-        #     show: true
-        #     cpu: true
-        #     memory: true
-        #     showLabel: true
     - Argo CD (Cluster):
         href: https://openshift-gitops-server-openshift-gitops.apps.home.ocplab.com/
         icon: argocd
+        siteMonitor: https://openshift-gitops-server-openshift-gitops.apps.home.ocplab.com/
         description: GitOps
     - Argo CD (Shared):
         href: https://argocd-server-gitops.apps.home.ocplab.com/
         icon: argocd
+        siteMonitor: https://argocd-server-gitops.apps.home.ocplab.com/
         description: GitOps
 
 - Hub:
     - OpenShift:
         href: https://console-openshift-console.apps.hub.ocplab.com
         icon: https://gexperts.com/img/openshift.png
+        siteMonitor: https://console-openshift-console.apps.hub.ocplab.com
         description: Kubernetes
-        # widget:
-        #   type: kubernetes
-        #   cluster:
-        #     show: true
-        #     cpu: true
-        #     memory: true
-        #   nodes:
-        #     show: true
-        #     cpu: true
-        #     memory: true
-        #     showLabel: true
     - Argo CD (Cluster):
         href: https://openshift-gitops-server-openshift-gitops.apps.hub.ocplab.com/
         icon: argocd
+        siteMonitor: https://openshift-gitops-server-openshift-gitops.apps.hub.ocplab.com/
         description: GitOps
     - Advanced Cluster Manager:
         href: https://console-openshift-console.apps.hub.ocplab.com/multicloud/home/overview
         icon: https://gexperts.com/img/rhacm.png
+        siteMonitor: https://console-openshift-console.apps.hub.ocplab.com/multicloud/home/overview
         description: Kubernetes Fleet Manager
     - Advanced Cluster Security:
         href: https://central-stackrox.apps.hub.ocplab.com
         icon: https://gexperts.com/img/rhacs.png
+        siteMonitor: https://central-stackrox.apps.hub.ocplab.com
         description: Kubernetes Security
-
 
 - Infrastructure:
     - Pi-hole:
         href: http://infra-server:8080
         icon: pi-hole.png
         description: DNS
-        ping: http://infra-server:8080
+        siteMonitor: http://infra-server:8080
         widget:
           type: pihole
           url: http://infra-server:8080
     - Uptime Kuma:
         href: https://uptime.ocplab.com
-        ping: https://uptime.ocplab.com
+        siteMonitor: https://uptime.ocplab.com
         description: Monitoring
         icon: https://raw.githubusercontent.com/louislam/uptime-kuma/master/public/icon.svg
         widget:
@@ -73,7 +57,7 @@
           slug: homelab
     - QNAP:
         href: https://lab-nas.ocplab.com:8443
-        ping: https://lab-nas.ocplab.com:8443
+        siteMonitor: https://lab-nas.ocplab.com:8443
         icon: qnap-alt.png
         description: NAS
         widget:
@@ -83,16 +67,16 @@
           password: "{{ qnap_password }}"
     - Keycloak:
         href: https://sso.ocplab.com/admin/
-        ping: https://sso.ocplab.com
+        siteMonitor: https://sso.ocplab.com
         icon: https://upload.wikimedia.org/wikipedia/commons/2/29/Keycloak_Logo.png
         description: Single Sign-On
     - Router:
         href: http://router.asus.com
-        ping: http://router.asus.com
+        siteMonitor: http://router.asus.com
         icon: asus-router.png
         description: Internet Router
     - Upsnap:
         href: http://infra-server:8090
-        ping: http://infra-server:8090
+        siteMonitor: http://infra-server:8090
         icon: https://raw.githubusercontent.com/seriousm4x/UpSnap/master/frontend/static/gopher.svg
         description: Wake-on-LAN
