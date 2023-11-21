@@ -1,0 +1,26 @@
+- name: install prometheus
+  kewlfft.aur.aur:
+    name: "{{ item }}"
+    state: present
+  become: yes
+  become_user: aur_builder
+  with_items:
+    - prometheus
+    - prometheus-node-exporter
+
+- name: copy haproxy configuration
+  synchronize:
+    src: ./etc/prometheus/{{ item }}
+    dest: /etc/prometheus/{{ item }}
+    rsync_opts:
+    - "--chown=root:root"
+  become: yes
+  with_items:
+    - prometheus.yml
+
+- name: Start and enable prometheus service
+  systemd:
+    name: prometheus.service
+    enabled: true
+    state: started
+  become: yes

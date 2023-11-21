@@ -43,12 +43,61 @@
         icon: argocd
         siteMonitor: https://openshift-gitops-server-openshift-gitops.apps.home.ocplab.com/
         description: GitOps
+        widget:
+          type: customapi
+          # label_replace(count(count by (server) (argocd_cluster_info{namespace="openshift-gitops"})),"instance_clusters", "openshift-gitops", "","") or label_replace(count(count by (repo) (argocd_app_info{namespace="openshift-gitops", dest_server=~".+"})),"instance_repos", "openshift-gitops", "","") or label_replace(sum(argocd_app_info{namespace="openshift-gitops",dest_server=~".+"}),"instance_apps", "openshift-gitops", "","")
+          url: https://thanos-querier-openshift-monitoring.apps.home.ocplab.com/api/v1/query?query=label_replace%28count%28count%20by%20%28server%29%20%28argocd_cluster_info%7Bnamespace%3D%22openshift-gitops%22%7D%29%29%2C%22instance_clusters%22%2C%20%22openshift-gitops%22%2C%20%22%22%2C%22%22%29%20or%20label_replace%28count%28count%20by%20%28repo%29%20%28argocd_app_info%7Bnamespace%3D%22openshift-gitops%22%2C%20dest_server%3D~%22.%2B%22%7D%29%29%2C%22instance_repos%22%2C%20%22openshift-gitops%22%2C%20%22%22%2C%22%22%29%20or%20label_replace%28sum%28argocd_app_info%7Bnamespace%3D%22openshift-gitops%22%2Cdest_server%3D~%22.%2B%22%7D%29%2C%22instance_apps%22%2C%20%22openshift-gitops%22%2C%20%22%22%2C%22%22%29
+          headers:
+            Authorization: Bearer {{ home_monitor_token }}
+          mappings:
+            - field:
+                data:
+                  result:
+                    0:
+                      value: 1
+              label: Clusters
+            - field:
+                data:
+                  result:
+                    1:
+                      value: 1
+              label: Repositories
+            - field:
+                data:
+                  result:
+                    2:
+                      value: 1
+              label: Applications
     - Argo CD (Shared):
         href: https://argocd-server-gitops.apps.home.ocplab.com/
         icon: argocd
         siteMonitor: https://argocd-server-gitops.apps.home.ocplab.com/
         description: GitOps
-
+        widget:
+          type: customapi
+          # label_replace(count(count by (server) (argocd_cluster_info{namespace="gitops"})),"instance_clusters", "gitops", "","") or label_replace(count(count by (repo) (argocd_app_info{namespace="gitops", dest_server=~".+"})),"instance_repos", "gitops", "","") or label_replace(sum(argocd_app_info{namespace="gitops",dest_server=~".+"}),"instance_apps", "gitops", "","")
+          url: https://thanos-querier-openshift-monitoring.apps.home.ocplab.com/api/v1/query?query=label_replace%28count%28count%20by%20%28server%29%20%28argocd_cluster_info%7Bnamespace%3D%22gitops%22%7D%29%29%2C%22instance_clusters%22%2C%20%22gitops%22%2C%20%22%22%2C%22%22%29%20or%20label_replace%28count%28count%20by%20%28repo%29%20%28argocd_app_info%7Bnamespace%3D%22gitops%22%2C%20dest_server%3D~%22.%2B%22%7D%29%29%2C%22instance_repos%22%2C%20%22gitops%22%2C%20%22%22%2C%22%22%29%20or%20label_replace%28sum%28argocd_app_info%7Bnamespace%3D%22gitops%22%2Cdest_server%3D~%22.%2B%22%7D%29%2C%22instance_apps%22%2C%20%22gitops%22%2C%20%22%22%2C%22%22%29
+          headers:
+            Authorization: Bearer {{ home_monitor_token }}
+          mappings:
+            - field:
+                data:
+                  result:
+                    0:
+                      value: 1
+              label: Clusters
+            - field:
+                data:
+                  result:
+                    1:
+                      value: 1
+              label: Repositories
+            - field:
+                data:
+                  result:
+                    2:
+                      value: 1
+              label: Applications
 - Hub:
     - OpenShift:
         href: https://console-openshift-console.apps.hub.ocplab.com
@@ -94,6 +143,31 @@
         icon: argocd
         siteMonitor: https://openshift-gitops-server-openshift-gitops.apps.hub.ocplab.com/
         description: GitOps
+        widget:
+          type: customapi
+          # label_replace(count(count by (server) (argocd_cluster_info{namespace="openshift-gitops"})),"instance_clusters", "openshift-gitops", "","") or label_replace(count(count by (repo) (argocd_app_info{namespace="openshift-gitops", dest_server=~".+"})),"instance_repos", "openshift-gitops", "","") or label_replace(sum(argocd_app_info{namespace="openshift-gitops",dest_server=~".+"}),"instance_apps", "openshift-gitops", "","")
+          url: https://thanos-querier-openshift-monitoring.apps.hub.ocplab.com/api/v1/query?query=label_replace%28count%28count%20by%20%28server%29%20%28argocd_cluster_info%7Bnamespace%3D%22openshift-gitops%22%7D%29%29%2C%22instance_clusters%22%2C%20%22openshift-gitops%22%2C%20%22%22%2C%22%22%29%20or%20label_replace%28count%28count%20by%20%28repo%29%20%28argocd_app_info%7Bnamespace%3D%22openshift-gitops%22%2C%20dest_server%3D~%22.%2B%22%7D%29%29%2C%22instance_repos%22%2C%20%22openshift-gitops%22%2C%20%22%22%2C%22%22%29%20or%20label_replace%28sum%28argocd_app_info%7Bnamespace%3D%22openshift-gitops%22%2Cdest_server%3D~%22.%2B%22%7D%29%2C%22instance_apps%22%2C%20%22openshift-gitops%22%2C%20%22%22%2C%22%22%29
+          headers:
+            Authorization: Bearer {{ hub_monitor_token }}
+          mappings:
+            - field:
+                data:
+                  result:
+                    0:
+                      value: 1
+              label: Clusters
+            - field:
+                data:
+                  result:
+                    1:
+                      value: 1
+              label: Repositories
+            - field:
+                data:
+                  result:
+                    2:
+                      value: 1
+              label: Applications
     - Advanced Cluster Manager:
         href: https://console-openshift-console.apps.hub.ocplab.com/multicloud/home/overview
         icon: https://gexperts.com/img/rhacm.png
@@ -138,6 +212,33 @@
         siteMonitor: https://sso.ocplab.com
         icon: https://upload.wikimedia.org/wikipedia/commons/2/29/Keycloak_Logo.png
         description: Single Sign-On
+        widget:
+          type: customapi
+          # label_replace(sum(keycloak_logins_total) by (provider),"logins_total","$1","provider","(.*)") or sum(jvm_memory_bytes_used{instance="sso.ocplab.com:443", area="heap"})*100/sum(jvm_memory_bytes_max{instance="sso.ocplab.com:443", area="heap"})
+          url: https://thanos-querier-openshift-monitoring.apps.hub.ocplab.com/api/v1/query?query=label_replace%28count%28count%20by%20%28server%29%20%28argocd_cluster_info%7Bnamespace%3D%22openshift-gitops%22%7D%29%29%2C%22instance_clusters%22%2C%20%22openshift-gitops%22%2C%20%22%22%2C%22%22%29%20or%20label_replace%28count%28count%20by%20%28repo%29%20%28argocd_app_info%7Bnamespace%3D%22openshift-gitops%22%2C%20dest_server%3D~%22.%2B%22%7D%29%29%2C%22instance_repos%22%2C%20%22openshift-gitops%22%2C%20%22%22%2C%22%22%29%20or%20label_replace%28sum%28argocd_app_info%7Bnamespace%3D%22openshift-gitops%22%2Cdest_server%3D~%22.%2B%22%7D%29%2C%22instance_apps%22%2C%20%22openshift-gitops%22%2C%20%22%22%2C%22%22%29
+          mappings:
+            - field:
+                data:
+                  result:
+                    0:
+                      value: 1
+              label: Total Logins
+              format: number
+            - field:
+                data:
+                  result:
+                    1:
+                      value: 1
+              label: Heap Used
+              format: percent
+    - Prometheus:
+        href: http://infra-server:9090
+        siteMonitor: http://infra-server:9090
+        icon: prometheus.png
+        description: Metrics
+        widget:
+            type: prometheus
+            url: http://infra-server:9090
     - Router:
         href: http://router.asus.com
         siteMonitor: http://router.asus.com

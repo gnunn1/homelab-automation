@@ -22,3 +22,4 @@
     # - {role: install-keycloak}
     # - {role: install-uptime-kuma}
     - {role: install-homepage}
+    # - {role: install-prometheus}
