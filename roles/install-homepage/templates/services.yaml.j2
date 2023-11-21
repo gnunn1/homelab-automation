@@ -4,6 +4,40 @@
         icon: https://gexperts.com/img/openshift.png
         siteMonitor: https://console-openshift-console.apps.home.ocplab.com
         description: Kubernetes
+        widget:
+          type: customapi
+          # count(kubelet_node_name) by (__name__) or sum(kubelet_working_pods) by (cluster)
+          url: https://thanos-querier-openshift-monitoring.apps.home.ocplab.com/api/v1/query?query=label_replace%28count%28kubelet_node_name%29%20by%20%28cluster%29%2C%20%22nodes%22%2C%20%22%241%22%2C%22cluster%22%2C%22%28.%2A%29%22%29%20or%20label_replace%28sum%28kubelet_working_pods%29%20by%20%28cluster%29%2C%22pods%22%2C%22%241%22%2C%22cluster%22%2C%22%28.%2A%29%22%29%20or%20label_replace%28sum%281%20-%20sum%20without%20%28mode%29%20%28rate%28node_cpu_seconds_total%7Bmode%3D~%22idle%7Ciowait%7Csteal%22%7D%5B2m%5D%29%29%20%2A%20on%28instance%29%20group_left%28%29%20%28label_replace%28max%20by%20%28node%29%20%28kube_node_role%7Brole%3D~%22.%2B%22%7D%29%2C%20%22instance%22%2C%20%22%241%22%2C%20%22node%22%2C%22%28.%2A%29%22%29%29%29%20by%20%28cluster%29%2C%20%22cpu%22%2C%20%22%241%22%2C%20%22cluster%22%2C%22%28.%2A%29%22%29%20or%20label_replace%28sum%28%28node_memory_MemTotal_bytes%20-%20node_memory_MemAvailable_bytes%29%20%2A%20on%28instance%29%20group_left%28role%29%20%28label_replace%28max%20by%20%28node%29%20%28kube_node_role%7Brole%3D~%22.%2B%22%7D%29%2C%20%22instance%22%2C%20%22%241%22%2C%20%22node%22%2C%20%22%28.%2A%29%22%29%29%29%20by%20%28cluster%29%2C%20%22memory%22%2C%22%241%22%2C%22cluster%22%2C%22%28.%2A%29%22%29
+          headers:
+            Authorization: Bearer {{ home_monitor_token }}
+          mappings:
+            - field:
+                data:
+                  result:
+                    0:
+                      value: 1
+              label: Nodes
+            - field:
+                data:
+                  result:
+                    1:
+                      value: 1
+              label: Pods
+            - field:
+                data:
+                  result:
+                    2:
+                      value: 1
+              label: CPU
+              format: float
+              suffix: cores
+            - field:
+                data:
+                  result:
+                    3:
+                      value: 1
+              label: Memory
+              format: bytes
     - Argo CD (Cluster):
         href: https://openshift-gitops-server-openshift-gitops.apps.home.ocplab.com/
         icon: argocd
@@ -21,6 +55,40 @@
         icon: https://gexperts.com/img/openshift.png
         siteMonitor: https://console-openshift-console.apps.hub.ocplab.com
         description: Kubernetes
+        widget:
+          type: customapi
+          # count(kubelet_node_name) by (__name__) or sum(kubelet_working_pods) by (cluster)
+          url: https://thanos-querier-openshift-monitoring.apps.hub.ocplab.com/api/v1/query?query=label_replace%28count%28kubelet_node_name%29%20by%20%28cluster%29%2C%20%22nodes%22%2C%20%22%241%22%2C%22cluster%22%2C%22%28.%2A%29%22%29%20or%20label_replace%28sum%28kubelet_working_pods%29%20by%20%28cluster%29%2C%22pods%22%2C%22%241%22%2C%22cluster%22%2C%22%28.%2A%29%22%29%20or%20label_replace%28sum%281%20-%20sum%20without%20%28mode%29%20%28rate%28node_cpu_seconds_total%7Bmode%3D~%22idle%7Ciowait%7Csteal%22%7D%5B2m%5D%29%29%20%2A%20on%28instance%29%20group_left%28%29%20%28label_replace%28max%20by%20%28node%29%20%28kube_node_role%7Brole%3D~%22.%2B%22%7D%29%2C%20%22instance%22%2C%20%22%241%22%2C%20%22node%22%2C%22%28.%2A%29%22%29%29%29%20by%20%28cluster%29%2C%20%22cpu%22%2C%20%22%241%22%2C%20%22cluster%22%2C%22%28.%2A%29%22%29%20or%20label_replace%28sum%28%28node_memory_MemTotal_bytes%20-%20node_memory_MemAvailable_bytes%29%20%2A%20on%28instance%29%20group_left%28role%29%20%28label_replace%28max%20by%20%28node%29%20%28kube_node_role%7Brole%3D~%22.%2B%22%7D%29%2C%20%22instance%22%2C%20%22%241%22%2C%20%22node%22%2C%20%22%28.%2A%29%22%29%29%29%20by%20%28cluster%29%2C%20%22memory%22%2C%22%241%22%2C%22cluster%22%2C%22%28.%2A%29%22%29
+          headers:
+            Authorization: Bearer {{ hub_monitor_token }}
+          mappings:
+            - field:
+                data:
+                  result:
+                    0:
+                      value: 1
+              label: Nodes
+            - field:
+                data:
+                  result:
+                    1:
+                      value: 1
+              label: Pods
+            - field:
+                data:
+                  result:
+                    2:
+                      value: 1
+              label: CPU
+              format: float
+              suffix: cores
+            - field:
+                data:
+                  result:
+                    3:
+                      value: 1
+              label: Memory
+              format: bytes
     - Argo CD (Cluster):
         href: https://openshift-gitops-server-openshift-gitops.apps.hub.ocplab.com/
         icon: argocd
