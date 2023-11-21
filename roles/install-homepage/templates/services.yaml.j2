@@ -214,8 +214,8 @@
         description: Single Sign-On
         widget:
           type: customapi
-          # label_replace(sum(keycloak_logins_total) by (provider),"logins_total","$1","provider","(.*)") or sum(jvm_memory_bytes_used{instance="sso.ocplab.com:443", area="heap"})*100/sum(jvm_memory_bytes_max{instance="sso.ocplab.com:443", area="heap"})
-          url: https://thanos-querier-openshift-monitoring.apps.hub.ocplab.com/api/v1/query?query=label_replace%28count%28count%20by%20%28server%29%20%28argocd_cluster_info%7Bnamespace%3D%22openshift-gitops%22%7D%29%29%2C%22instance_clusters%22%2C%20%22openshift-gitops%22%2C%20%22%22%2C%22%22%29%20or%20label_replace%28count%28count%20by%20%28repo%29%20%28argocd_app_info%7Bnamespace%3D%22openshift-gitops%22%2C%20dest_server%3D~%22.%2B%22%7D%29%29%2C%22instance_repos%22%2C%20%22openshift-gitops%22%2C%20%22%22%2C%22%22%29%20or%20label_replace%28sum%28argocd_app_info%7Bnamespace%3D%22openshift-gitops%22%2Cdest_server%3D~%22.%2B%22%7D%29%2C%22instance_apps%22%2C%20%22openshift-gitops%22%2C%20%22%22%2C%22%22%29
+          # label_replace(sum(keycloak_logins_total),"logins_total","all","","") or label_replace(sum(keycloak_failed_login_attempts_total) OR on() vector(0),"failed_logins_total","all","","")  or sum(jvm_memory_bytes_used{instance="sso.ocplab.com:443", area="heap"})*100/sum(jvm_memory_bytes_max{instance="sso.ocplab.com:443", area="heap"})
+          url: http://infra-server:9090/api/v1/query?query=label_replace%28sum%28keycloak_logins_total%29%2C%22logins_total%22%2C%22all%22%2C%22%22%2C%22%22%29%20or%20label_replace%28sum%28keycloak_failed_login_attempts_total%29%20OR%20on%28%29%20vector%280%29%2C%22failed_logins_total%22%2C%22all%22%2C%22%22%2C%22%22%29%20%20or%20sum%28jvm_memory_bytes_used%7Binstance%3D%22sso.ocplab.com%3A443%22%2C%20area%3D%22heap%22%7D%29%2A100%2Fsum%28jvm_memory_bytes_max%7Binstance%3D%22sso.ocplab.com%3A443%22%2C%20area%3D%22heap%22%7D%29
           mappings:
             - field:
                 data:
@@ -228,6 +228,13 @@
                 data:
                   result:
                     1:
+                      value: 1
+              label: Failed Logins
+              format: number
+            - field:
+                data:
+                  result:
+                    2:
                       value: 1
               label: Heap Used
               format: percent
