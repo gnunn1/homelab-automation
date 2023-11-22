@@ -256,3 +256,12 @@
         siteMonitor: http://infra-server:8090
         icon: https://raw.githubusercontent.com/seriousm4x/UpSnap/master/frontend/static/gopher.svg
         description: Wake-on-LAN
+        widget:
+          type: customapi
+          url: http://infra-server:8090/api/collections/devices/records
+          headers:
+            Authorization: Bearer {{ upsnap_token }}
+          mappings:
+            - field: totalItems
+              format: number
+              label: Devices
