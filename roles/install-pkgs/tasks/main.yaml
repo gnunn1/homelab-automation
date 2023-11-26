@@ -16,5 +16,6 @@
     - tar
     - zip
     - unzip
+    - podman
   become: yes
   become_user: aur_builder
