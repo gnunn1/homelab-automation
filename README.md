@@ -14,6 +14,9 @@ The infra server is the system which runs 24/7 and hosts a variety of processes 
 * pi.hole
 * glauth (LDAP)
 * upsnap (remote start)
+* homepage
+* prometheus
+* keycloak
 
 Note that glauth hosts some basic users with the passwords store in vars/protected.yaml which
 has been encrypted with vault. This file has the following variables:
@@ -36,7 +39,7 @@ upsnap_admin_username: xxx@xxx.xxx
 upsnap_admin_password: xxx@xxx.xxx
 ```
 
-Note that upsnap cannot be configured programatically, currently the role uploads a backup file
+Note that upsnap cannot be configured programmatically, currently the role uploads a backup file
 I have which can then be restored. Note that this backup is not stored in git.
 
 To configure the infra_server, run:
