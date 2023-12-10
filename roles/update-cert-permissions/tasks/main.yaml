@@ -1,0 +1,6 @@
+- name: Change sso.ocplab.com file permissions so keycloak service can access it
+  file:
+    path: /etc/keycloak
+    owner: keycloak
+    group: keycloak
+    recurse: true
