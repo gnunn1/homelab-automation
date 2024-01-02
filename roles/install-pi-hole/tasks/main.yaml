@@ -23,16 +23,16 @@
 
 - name: copy openshift dns-masq configuration
   synchronize:
-    src: ./etc/dnsmasq.d/02-openshift.conf
-    dest: /etc/dnsmasq.d/02-openshift.conf
+    src: ./etc/dnsmasq.d/00-openshift.conf
+    dest: /etc/dnsmasq.d/00-openshift.conf
     rsync_opts:
     - "--chown=root:root"
   become: yes
 
 - name: copy sso dns-masq configuration
   synchronize:
-    src: ./etc/dnsmasq.d/02-sso.conf
-    dest: /etc/dnsmasq.d/02-sso.conf
+    src: ./etc/dnsmasq.d/00-sso.conf
+    dest: /etc/dnsmasq.d/00-sso.conf
     rsync_opts:
     - "--chown=root:root"
   become: yes
