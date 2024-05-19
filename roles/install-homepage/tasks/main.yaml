@@ -16,8 +16,8 @@
 
 - name: Copy homepage systemd service
   synchronize:
-    src: ./etc/containers/systemd/homepage.service
-    dest: /etc/containers/systemd/homepage.service
+    src: ./etc/containers/systemd/homepage.container
+    dest: /etc/containers/systemd/homepage.container
     rsync_opts:
     - "--chown=root:root"
   become: yes
