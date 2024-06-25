@@ -1,0 +1,51 @@
+- name: install cockpit
+  kewlfft.aur.aur:
+    name: "{{ item }}"
+    state: present
+  become: yes
+  become_user: aur_builder
+  with_items:
+    - cockpit
+    - cockpit-machines
+    - cockpit-podman
+    - cockpit-storaged
+
+- name: Make directory for cockpit socket
+  ansible.builtin.file:
+    path: /etc/systemd/system/cockpit.socket.d
+    state: directory
+    mode: '0644'
+  become: yes
+
+- name: Copy systemd socket configuration
+  synchronize:
+    src: ./etc/systemd/system/cockpit.socket.d/listen.conf
+    dest: /etc/systemd/system/cockpit.socket.d/listen.conf
+    rsync_opts:
+    - "--chown=root:root"
+  become: yes
+
+- name: Copy cockpit certs
+  copy:
+    src: /etc/ssl/cockpit.ocplab.com/cockpit.ocplab.com.pem
+    dest: /etc/cockpit/ws-certs.d/cockpit.ocplab.com.crt
+    remote_src: true
+    owner: cockpit-ws
+    group: cockpit-ws
+  become: yes
+
+- name: Copy cockpit certs
+  copy:
+    src: /etc/ssl/cockpit.ocplab.com/cockpit.ocplab.com.key
+    dest: /etc/cockpit/ws-certs.d/cockpit.ocplab.com.key
+    remote_src: true
+    owner: cockpit-ws
+    group: cockpit-ws
+  become: yes
+
+- name: Start and enable cockpit service
+  systemd:
+    name: cockpit.socket
+    enabled: true
+    state: started
+  become: yes

@@ -28,6 +28,7 @@
   with_items:
   - uptime.ocplab.com
   - sso.ocplab.com
+  - cockpit.ocplab.com
   - ocplab.com
 
 - name: Start and enable haproxy service

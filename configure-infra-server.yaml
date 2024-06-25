@@ -18,6 +18,7 @@
     # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: sso.ocplab.com, become: yes}
     # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: uptime.ocplab.com, become: yes}
     # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: ocplab.com, become: yes}
+    # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: cockpit.ocplab.com, become: yes}
     # - {role: update-cert-permissions}
     # - {role: install-postgresql}
     # - {role: install-keycloak}
@@ -25,3 +26,4 @@
     # - {role: install-homepage}
     # - {role: install-prometheus}
     # - {role: update-route-53-addresses}
+    # - {role: install-cockpit}
