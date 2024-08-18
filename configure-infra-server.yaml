@@ -4,6 +4,7 @@
     infra_server_hostname: infra-server
     ler53_route_53_domain: ocplab.com
     ler53_route_53_zone_id: Z1LKUX3GLO9GW9
+    ler53_intermediate_download_url: https://letsencrypt.org/certs/2024/r10.pem
 
   vars_files:
     -  vars/protected.yaml
@@ -11,8 +12,9 @@
   roles:
     # - {role: aur-builder-user}
     # - {role: install-pkgs}
+    # - {role: install-libvirt}
     # - {role: install-pi-hole}
-    # - {role: install-haproxy}
+    - {role: install-haproxy}
     # - {role: install-glauth}
     # - {role: install-upsnap}
     # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: sso.ocplab.com, become: yes}
