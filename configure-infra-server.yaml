@@ -13,8 +13,8 @@
     # - {role: aur-builder-user}
     # - {role: install-pkgs}
     # - {role: install-libvirt}
-    # - {role: install-pi-hole}
-    - {role: install-haproxy}
+    - {role: install-pi-hole}
+    # - {role: install-haproxy}
     # - {role: install-glauth}
     # - {role: install-upsnap}
     # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: sso.ocplab.com, become: yes}
