@@ -2,4 +2,4 @@ collections:
   - name: kewlfft.aur
   - name: community.general
 #  - name:  community.libvirt
-#  - name: mprahl.lets-encrypt-route-53
+  - name: mprahl.lets-encrypt-route-53
