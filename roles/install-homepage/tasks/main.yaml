@@ -4,6 +4,7 @@
     state: present
   with_items:
     - podman
+    - homepage
   become: yes
   become_user: aur_builder
 

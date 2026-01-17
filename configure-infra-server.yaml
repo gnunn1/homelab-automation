@@ -13,12 +13,12 @@
     # - {role: aur-builder-user}
     # - {role: install-pkgs}
     # - {role: install-libvirt}
-    - {role: install-pi-hole}
+    # - {role: install-pi-hole}
     # - {role: install-haproxy}
     # - {role: install-glauth}
     # - {role: install-upsnap}
     # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: sso.ocplab.com, become: yes}
-    # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: uptime.ocplab.com, become: yes}
+    - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: uptime.ocplab.com, become: yes}
     # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: ocplab.com, become: yes}
     # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: cockpit.ocplab.com, become: yes}
     # - {role: update-cert-permissions}
@@ -29,3 +29,67 @@
     # - {role: install-prometheus}
     # - {role: update-route-53-addresses}
     # - {role: install-cockpit}
+
+# - name: Configure UDR7
+#   # Use localhost to generate cert for now, UDR7 missing boto python libraries
+#   hosts: localhost
+
+#   vars_files:
+#     -  vars/protected.yaml
+
+#   vars:
+#     ler53_route_53_domain: ocplab.com
+#     ler53_route_53_zone_id: Z1LKUX3GLO9GW9
+#     ler53_intermediate_download_url: https://letsencrypt.org/certs/2024/r10.pem
+
+#   roles:
+#     - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: unifi.ocplab.com, become: yes}
+
+# - name: Copy Certificates to UDR7
+#   hosts: unifi
+
+#   vars:
+      # Get this after doing manual update of cert once in /data/unifi-core/config/
+#     cert_id: "1c6e0123-eb73-40fa-91a1-9f8fd2456408"
+
+#   tasks:
+#     - name: change permissions
+#       ansible.builtin.file:
+#         path: "{{ item }}"
+#         owner: gnunn
+#         group: gnunn
+#         mode: '0644'
+#       loop:
+#         - "/etc/ssl/unifi.ocplab.com/unifi.ocplab.com.pem"
+#         - "/etc/ssl/unifi.ocplab.com/unifi.ocplab.com.key"
+#       become: true
+#       delegate_to: localhost
+
+#     - name: copy certificate
+#       synchronize:
+#         src: /etc/ssl/unifi.ocplab.com/unifi.ocplab.com.pem
+#         dest: "/data/unifi-core/config/{{ cert_id }}.crt"
+#         rsync_opts:
+#         - "--chown=root:root"
+#         - "--chmod=0644"
+
+#     - name: copy key
+#       synchronize:
+#         src: /etc/ssl/unifi.ocplab.com/unifi.ocplab.com.key
+#         dest: "/data/unifi-core/config/{{ cert_id }}.key"
+#         rsync_opts:
+#         - "--chown=root:root"
+#         - "--chmod=0644"
+
+#     - name: change permissions
+#       ansible.builtin.file:
+#         path: "{{ item }}"
+#         owner: root
+#         group: root
+#         mode: '0644'
+#       loop:
+#         - "/etc/ssl/unifi.ocplab.com/unifi.ocplab.com.pem"
+#         - "/etc/ssl/unifi.ocplab.com/unifi.ocplab.com.key"
+#       become: true
+#       delegate_to: localhost
+

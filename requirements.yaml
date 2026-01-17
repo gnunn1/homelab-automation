@@ -3,3 +3,4 @@ collections:
   - name: community.general
 #  - name:  community.libvirt
   - name: mprahl.lets-encrypt-route-53
+  - name: kenmoini.unifi_network

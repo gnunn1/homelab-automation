@@ -1,1 +1,1 @@
-address: "{{ lookup('community.general.dig', 'ocplab.asuscomm.com', qtype='A') }}"
+query_string: "[?name=='UDR7'].ipAddress"

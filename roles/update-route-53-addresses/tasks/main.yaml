@@ -1,5 +1,34 @@
+- name: Get Unifi Site Info
+  kenmoini.unifi_network.site_info:
+    unifi_network_url: https://192.168.1.1
+    unifi_network_api_key: "{{ unifi_api_token }}"
+    unifi_network_skip_tls_verify: true
+  register: r_site_info
+
+- name: Set Site ID
+  ansible.builtin.set_fact:
+    site_id: "{{ r_site_info.site_info.data[0].id }}"
+
+- name: Get device list
+  ansible.builtin.uri:
+    url: "https://192.168.1.1/proxy/network/integration/v1/sites/{{ site_id }}/devices"
+    method: GET
+    status_code: 200 # Expect a 201 Created status code
+    return_content: true # Return the content of the response
+    validate_certs: false
+    headers:
+      X-API-KEY: "{{ unifi_api_token }}"
+  register: device_list
+
+# - debug:
+#     msg: "{{ device_list.json.data | community.general.json_query(query_string) }}"
+
+- name: Set Address
+  ansible.builtin.set_fact:
+    address: "{{ device_list.json.data | community.general.json_query(query_string) }}"
+
 - debug:
-    msg: "{{ address }}"
+    msg: "Updating for WAN address: {{ address[0] }}"
 
 - name: Update records in Route 53 for servers
   amazon.aws.route53:
@@ -10,7 +39,7 @@
     ttl: 300
     overwrite: true
     value:
-      - "{{ address }}"
+      - "{{ address[0] }}"
     wait: true
     access_key: "{{ ler53_aws_access_key }}"
     secret_key: "{{ ler53_aws_secret_key }}"
