@@ -1,0 +1,55 @@
+- name: Create /opt/ddns-route53 directory
+  ansible.builtin.file:
+    path: "/opt/ddns-route53"
+    state: directory
+
+- name: Create /etc/ddns-route53 directory
+  ansible.builtin.file:
+    path: "/etc/ddns-route53"
+    state: directory
+  become: true
+
+- name: Create a temporary directory
+  ansible.builtin.tempfile:
+    state: directory
+    prefix: "ddns-route53-"
+  register: temp_dir
+
+- debug:
+    msg: "{{ temp_dir.path }}"
+
+- name: Download ddns-route53
+  ansible.builtin.get_url:
+    url: https://github.com/crazy-max/ddns-route53/releases/download/v2.14.0/ddns-route53_2.14.0_linux_amd64.tar.gz
+    dest: "{{ temp_dir.path }}/ddns-route53_2.14.0_linux_amd64.tar.gz"
+
+- name: Extract archive to destination
+  ansible.builtin.unarchive:
+    src: "{{ temp_dir.path }}/ddns-route53_2.14.0_linux_amd64.tar.gz"
+    dest: /opt/ddns-route53
+    owner: root
+    group: root
+    remote_src: yes
+  become: true
+
+- name: Deploy /etc/ddns-route53/ddns-route53.yaml
+  ansible.builtin.template:
+    src: ddns-route53.yaml.j2
+    dest: /etc/ddns-route53/ddns-route53.yaml
+    mode: '0644' # Sets file permissions
+  become: true
+
+- name: Copy ddns-route53.service
+  synchronize:
+    src: ./ddns-route53.service
+    dest: /etc/systemd/system/ddns-route53.service
+    rsync_opts:
+    - "--chown=root:root"
+  become: yes
+
+- name: Start and enable ddns-route53.service
+  systemd:
+    name: ddns-route53.service
+    enabled: true
+    state: started
+  become: yes

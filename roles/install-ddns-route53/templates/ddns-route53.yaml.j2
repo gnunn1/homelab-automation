@@ -1,0 +1,39 @@
+credentials:
+  accessKeyID: "{{ ler53_aws_access_key }}"
+  secretAccessKey: "{{ ler53_aws_secret_key }}"
+
+route53:
+  hostedZoneID: "Z1LKUX3GLO9GW9"
+  recordsSet:
+    - name: "homepage.ocplab.com"
+      type: "A"
+      ttl: 300
+    - name: "api.home.ocplab.com"
+      type: "A"
+      ttl: 300
+    - name: "*.apps.home.ocplab.com"
+      type: "A"
+      ttl: 600
+    - name: "api.hub.ocplab.com"
+      type: "A"
+      ttl: 300
+    - name: "*.apps.hub.ocplab.com"
+      type: "A"
+      ttl: 300
+    - name: "sso.ocplab.com"
+      type: "A"
+      ttl: 300
+    - name: "uptime.ocplab.com"
+      type: "A"
+      ttl: 300
+    - name: "ocplab.com"
+      type: "A"
+      ttl: 300
+    - name: "slack-message-handler-product-catalog-cicd.apps.home.ocplab.com"
+      type: "A"
+      ttl: 300
+
+
+
+
+

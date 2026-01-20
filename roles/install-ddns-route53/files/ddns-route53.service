@@ -1,0 +1,18 @@
+[Unit]
+Description=ddns-route53
+Documentation=https://crazymax.dev/ddns-route53/
+After=syslog.target
+After=network.target
+
+[Service]
+RestartSec=2s
+Type=simple
+User=ddns-route53
+Group=ddns-route53
+ExecStart=/opt/ddns-route53/ddns-route53 --config /etc/ddns-route53/ddns-route53.yaml
+Restart=always
+Environment=TZ=America/Vancouver
+Environment=SCHEDULE="*/30 * * * *"
+
+[Install]
+WantedBy=multi-user.target
