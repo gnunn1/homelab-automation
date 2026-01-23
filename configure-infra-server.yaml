@@ -18,9 +18,10 @@
     # - {role: install-glauth}
     # - {role: install-upsnap}
     # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: sso.ocplab.com, become: yes}
-    - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: uptime.ocplab.com, become: yes}
+    # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: uptime.ocplab.com, become: yes}
     # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: ocplab.com, become: yes}
     # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: cockpit.ocplab.com, become: yes}
+    # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: jellyfin.ocplab.com, become: yes}
     # - {role: update-cert-permissions}
     # - {role: install-postgresql}
     # - {role: install-keycloak}
@@ -29,6 +30,7 @@
     # - {role: install-prometheus}
     # - {role: update-route-53-addresses}
     # - {role: install-cockpit}
+    # - {role: install-ddns-route53}
 
 # - name: Configure UDR7
 #   # Use localhost to generate cert for now, UDR7 missing boto python libraries
