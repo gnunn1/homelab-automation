@@ -1,3 +1,5 @@
 /etc/ssl/ocplab.com/ocplab.com.pem
 /etc/ssl/uptime.ocplab.com/uptime.ocplab.com.pem
 /etc/ssl/cockpit.ocplab.com/cockpit.ocplab.com.pem
+/etc/ssl/jellyfin.ocplab.com/jellyfin.ocplab.com.pem
+/etc/ssl/homeassistant.ocplab.com/homeassistant.ocplab.com.pem
