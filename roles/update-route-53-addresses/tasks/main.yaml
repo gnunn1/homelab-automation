@@ -51,5 +51,6 @@
     - "*.apps.hub.ocplab.com"
     - sso.ocplab.com
     - uptime.ocplab.com
+    - vpn.ocplab.com
     - slack-message-handler-product-catalog-cicd.apps.home.ocplab.com
-    - ocplab.com
+    - ocplab.co
