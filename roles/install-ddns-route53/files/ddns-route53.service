@@ -7,9 +7,9 @@ After=network.target
 [Service]
 RestartSec=2s
 Type=simple
-User=ddns-route53
-Group=ddns-route53
-ExecStart=/opt/ddns-route53/ddns-route53 --config /etc/ddns-route53/ddns-route53.yaml
+#User=ddns-route53
+#Group=ddns-route53
+ExecStart=/opt/ddns-route53/ddns-route53 --config=/etc/ddns-route53/ddns-route53.yaml
 Restart=always
 Environment=TZ=America/Vancouver
 Environment=SCHEDULE="*/30 * * * *"
