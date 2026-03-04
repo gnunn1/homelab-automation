@@ -1,0 +1,28 @@
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+shell_command:
+  shutdown_lab_server: 'ssh -i /config/ssh/openshift -o StrictHostKeyChecking=no core@api sudo shutdown -h now'
+  shutdown_hub_server: 'ssh -i /config/ssh/openshift -o StrictHostKeyChecking=no core@hub-server sudo shutdown -h now'
+
+switch:
+  - platform: wake_on_lan
+    mac: "18:c0:4d:00:c0:fe"
+    name: "lab-server"
+    host: "192.168.1.7"
+    turn_off:
+      service: shell_command.shutdown_lab_server
+  - platform: wake_on_lan
+    mac: "54:bf:64:6a:c9:e8"
+    name: "hub-server"
+    host: "192.168.1.5"
+    turn_off:
+      service: shell_command.shutdown_hub_server

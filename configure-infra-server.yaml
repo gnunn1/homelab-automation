@@ -28,6 +28,7 @@
     # - {role: install-keycloak}
     # - {role: install-uptime-kuma}
     # - {role: install-homepage}
+    # - {role: install-homeassistant}
     # - {role: install-prometheus}
     # - {role: update-route-53-addresses}
     # - {role: install-cockpit}
@@ -95,4 +96,3 @@
 #         - "/etc/ssl/unifi.ocplab.com/unifi.ocplab.com.key"
 #       become: true
 #       delegate_to: localhost
-

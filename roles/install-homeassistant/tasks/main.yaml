@@ -1,0 +1,29 @@
+- name: Make directory for homeassistant
+  ansible.builtin.file:
+    path: /opt/homeassistant/config
+    state: directory
+    mode: '0755'
+  become: yes
+
+- name: Copy homeassistant systemd service
+  synchronize:
+    src: ./etc/containers/systemd/homeassistant.container
+    dest: /etc/containers/systemd/homeassistant.container
+    rsync_opts:
+    - "--chown=root:root"
+  become: yes
+
+- name: Copy homeassistant configuration
+  synchronize:
+    src: ./opt/homeassistant/config/configuration.yaml
+    dest: /opt/homeassistant/config/configuration.yaml
+    rsync_opts:
+    - "--chown=root:root"
+  become: yes
+
+- name: Start and enable service
+  systemd:
+    name: homeassistant.service
+    enabled: true
+    state: started
+  become: true

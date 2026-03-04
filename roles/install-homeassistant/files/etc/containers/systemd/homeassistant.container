@@ -1,0 +1,20 @@
+[Unit]
+Description=Home Assistant
+Wants=network-online.target
+After=network-online.target
+
+[Container]
+ContainerName=homeassistant
+Image=ghcr.io/home-assistant/home-assistant:stable
+Volume=/opt/homeassistant/config:/config
+Volume=/etc/localtime:/etc/localtime:ro
+Volume=/run/dbus:/run/dbus:ro
+Environment=TZ=UTC
+Network=host
+PodmanArgs=--privileged --device=/dev/serial/by-id/usb-Nabu_Casa_ZBT-2_DCB4D90D1138-if00
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
