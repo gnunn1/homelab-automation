@@ -1,6 +1,12 @@
 # Loads default set of integrations. Do not remove.
 default_config:
 
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 192.168.1.0/24
+    - 172.16.0.0/12
+
 # Load frontend themes from the themes folder
 frontend:
   themes: !include_dir_merge_named themes
@@ -26,3 +32,21 @@ switch:
     host: "192.168.1.5"
     turn_off:
       service: shell_command.shutdown_hub_server
+
+lovelace:
+  # Use resource_mode to load resources from YAML
+  resource_mode: yaml
+
+  dashboards:
+    home-office:
+      mode: yaml
+      filename: homelab.yaml
+      title: Home Lab
+      icon: mdi:server-outline
+      show_in_sidebar: true
+    unas-2:
+      mode: yaml
+      filename: unas.yaml
+      title: UNAS-2
+      icon: mdi:nas
+      show_in_sidebar: true

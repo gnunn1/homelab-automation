@@ -1,0 +1,25 @@
+views:
+  - type: sections
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            heading: Servers
+            icon: mdi:server
+          - type: tile
+            entity: switch.lab_server
+          - type: tile
+            entity: switch.hub_server
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            heading: Network
+            icon: mdi:server-network
+          - type: tile
+            entity: update.udr7
+          - type: tile
+            entity: update.usw_flex_2_5g_5
+          - type: tile
+            entity: update.usw_flex_2_5g_8_poe

@@ -1,0 +1,256 @@
+views:
+  - type: sections
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            heading: UNAS-2
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.unas_2_fan_speed_pwm
+                color: blue
+                tap_action:
+                  action: more-info
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.unas_2_cpu_temperature
+                color: orange
+                tap_action:
+                  action: more-info
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.unas_2_cpu_usage
+                color: orange
+                icon: mdi:cpu-64-bit
+                tap_action:
+                  action: more-info
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.unas_2_memory_used
+                color: blue
+                icon: mdi:memory
+                tap_action:
+                  action: more-info
+          - type: custom:mushroom-select-card
+            entity: select.unas_2_fan_mode
+            primary_info: name
+            secondary_info: last-updated
+          - type: custom:mushroom-number-card
+            entity: number.unas_2_fan_speed
+            fill_container: false
+            icon: mdi:fan
+            display_mode: slider
+            name: Fan Speed
+            card_mod:
+              style:
+                mushroom-number-value-control$: |
+                  :host {
+                    {% if is_state('switch.unas_fan_auto_mode', 'on') %}
+                      pointer-events: none;
+                      opacity: 0.6;
+                    {% endif %}
+                  }
+          - type: tile
+            entity: sensor.unas_2_disk_read
+            name: Read
+            icon: mdi:upload
+            color: green
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: sensor.unas_2_disk_write
+            name: Write
+            icon: mdi:download
+            color: red
+            vertical: false
+            features_position: bottom
+          - graph: line
+            type: sensor
+            entity: sensor.unas_2_storage_pool_1_used
+            name: Used
+            detail: 1
+            hours_to_show: 48
+          - graph: line
+            type: sensor
+            entity: sensor.unas_2_storage_pool_1_available
+            name: Available
+            detail: 1
+            hours_to_show: 48
+          # - type: heading
+          #   heading: Backups
+          #   heading_style: title
+          #   icon: mdi:backup-restore
+          # - type: heading
+          #   heading: Main Backup → UNAS-2
+          #   heading_style: subtitle
+          #   icon: mdi:nas
+          #   badges:
+          #     - type: entity
+          #       show_state: true
+          #       show_icon: true
+          #       entity: sensor.unas_2_backup_main_backup_unas_pro_status
+          #       tap_action:
+          #         action: more-info
+          #       style: |
+          #         :host {
+          #           --icon-color: {% if is_state('sensor.unas_2_backup_main_backup_unas_pro_status', 'Completed') %}var(--green-color){% elif is_state('sensor.unas_2_backup_main_backup_unas_pro_status', 'Running') %}var(--blue-color){% else %}var(--red-color){% endif %} !important;
+          #         }
+          #     - type: entity
+          #       show_state: true
+          #       show_icon: true
+          #       entity: switch.unas_backup_main_backup_unas_pro_schedule_enabled
+          #       color: cyan
+          #       icon: mdi:calendar-clock
+          #       tap_action:
+          #         action: toggle
+          # - type: tile
+          #   entity: sensor.unas_2_backup_main_backup_unas_pro_last_run
+          #   name: Last Run
+          #   icon: mdi:clock-check-outline
+          #   color: green
+          #   vertical: false
+          # - type: tile
+          #   entity: sensor.unas_2_backup_main_backup_unas_pro_next_run
+          #   name: Next Run
+          #   icon: mdi:clock-outline
+          #   color: cyan
+          #   vertical: false
+          # - type: tile
+          #   entity: sensor.unas_2_backup_main_backup_unas_pro_last_run_duration
+          #   name: Duration
+          #   icon: mdi:timer-outline
+          #   color: blue
+          #   vertical: false
+          # - type: tile
+          #   entity: sensor.unas_2_backup_main_backup_unas_pro_schedule
+          #   name: Schedule
+          #   icon: mdi:calendar-clock
+          #   color: red
+          #   vertical: false
+          #   features_position: bottom
+          # - type: tile
+          #   entity: button.unas_backup_main_backup_unas_pro_run_backup
+          #   name: Run Now
+          #   icon: mdi:play-circle-outline
+          #   color: orange
+          #   vertical: false
+          #   tap_action:
+          #     action: call-service
+          #     confirmation:
+          #       text: Start Main Backup → UNAS Pro now?
+          - type: heading
+            heading: Storage Pool 1
+            heading_style: title
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.unas_2_storage_pool_1_usage
+                color: cyan
+                tap_action:
+                  action: more-info
+                icon: mdi:harddisk
+              - type: entity
+                show_state: true
+                show_icon: true
+                color: cyan
+                entity: sensor.unas_2_storage_pool_1_used
+                tap_action:
+                  action: more-info
+          - type: heading
+            icon: mdi:harddisk
+            heading: Drive 1
+            heading_style: subtitle
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.unas_2_hdd_1_temperature
+                color: orange
+                tap_action:
+                  action: more-info
+                icon: mdi:thermometer
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.unas_2_hdd_1_status
+                color: green
+                tap_action:
+                  action: more-info
+                style: |
+                  :host {
+                    --icon-color: {% if is_state('sensor.unas_2_hdd_1_status', 'Optimal') %}var(--green-color){% else %}var(--red-color){% endif %} !important;
+                  }
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.unas_2_hdd_1_power_on_hours
+                color: cyan
+                tap_action:
+                  action: more-info
+              - type: entity
+                entity: sensor.unas_2_hdd_1_bad_sectors
+            card_mod:
+              style: |
+                hui-heading-badge:nth-child(2) {
+                  min-width: 71px !important;
+                }
+                hui-heading-badge:nth-child(3) {
+                  min-width: 63px !important;
+                }
+          - type: heading
+            icon: mdi:harddisk
+            heading: Drive 2
+            heading_style: subtitle
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.unas_2_hdd_2_temperature
+                color: orange
+                tap_action:
+                  action: more-info
+                icon: mdi:thermometer
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.unas_2_hdd_2_status
+                color: green
+                tap_action:
+                  action: more-info
+                style: |
+                  :host {
+                    --icon-color: {% if is_state('sensor.unas_2_hdd_2_status', 'Optimal') %}var(--green-color){% else %}var(--red-color){% endif %} !important;
+                  }
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.unas_2_hdd_2_power_on_hours
+                color: cyan
+                tap_action:
+                  action: more-info
+              - type: entity
+                entity: sensor.unas_2_hdd_2_bad_sectors
+            card_mod:
+              style: |
+                hui-heading-badge:nth-child(2) {
+                  min-width: 71px !important;
+                }
+                hui-heading-badge:nth-child(3) {
+                  min-width: 63px !important;
+                }
+          - type: history-graph
+            entities:
+              - entity: sensor.unas_2_hdd_1_temperature
+                name: HDD1
+              - entity: sensor.unas_2_hdd_2_temperature
+                name: HDD2
+            logarithmic_scale: false
+            hours_to_show: 12
+            max_y_axis: 52
