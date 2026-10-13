@@ -16,7 +16,7 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 
 shell_command:
-  shutdown_lab_server: 'ssh -i /config/ssh/openshift -o StrictHostKeyChecking=no core@api sudo shutdown -h now'
+  shutdown_lab_server: 'ssh -i /config/ssh/openshift -o StrictHostKeyChecking=no core@lab-server sudo shutdown -h now'
   shutdown_hub_server: 'ssh -i /config/ssh/openshift -o StrictHostKeyChecking=no core@hub-server sudo shutdown -h now'
 
 switch:
