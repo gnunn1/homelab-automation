@@ -12,7 +12,7 @@ fi
 
 echo "Active IDs from LogicalVolumes in OpenShift"
 echo $ACTIVE_IDS
-exit 0
+#exit 0
 
 echo "Scanning LVM logical volumes in volume group: $VG_NAME..."
 LOCAL_LVS=$(sudo lvs --noheadings -o lv_name "$VG_NAME" | tr -d ' ')
