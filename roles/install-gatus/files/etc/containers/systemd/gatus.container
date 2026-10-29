@@ -1,0 +1,16 @@
+[Unit]
+Description=Gatus Status Page
+After=network-online.target
+
+[Container]
+Image=ghcr.io/twin/gatus:latest
+ContainerName=gatus
+PublishPort=7443:8080
+Volume=/opt/gatus/config:/config:ro,Z
+Environment=TZ=UTC
+
+[Service]
+#Restart=always
+
+[Install]
+WantedBy=default.target

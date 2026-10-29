@@ -23,12 +23,14 @@
     # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: cockpit.ocplab.com, become: yes}
     # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: jellyfin.ocplab.com, become: yes}
     # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: homeassistant.ocplab.com, become: yes}
+    # - {role: mprahl.lets-encrypt-route-53, ler53_cert_common_name: gatus.ocplab.com, become: yes}
     # - {role: update-cert-permissions}
     # - {role: install-postgresql}
     # - {role: install-keycloak}
     # - {role: install-uptime-kuma}
-    # - {role: install-homepage}
+    - {role: install-gatus}
     # - {role: install-homeassistant}
+    # - {role: install-homey}
     # - {role: install-prometheus}
     # - {role: update-route-53-addresses}
     # - {role: install-cockpit}

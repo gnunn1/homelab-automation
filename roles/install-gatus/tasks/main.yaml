@@ -1,0 +1,56 @@
+- name: Make directory for gatus
+  ansible.builtin.file:
+    path: /opt/gatus/config
+    state: directory
+    mode: '0755'
+  become: yes
+
+- name: Copy Certificates that were previously created
+  ansible.builtin.copy:
+    src: /etc/ssl/gatus.ocplab.com/{{ item }}
+    dest: /opt/gatus/config/{{ item }}
+    remote_src: true
+  become: yes
+  with_items:
+    - gatus.ocplab.com.pem
+    - gatus.ocplab.com.key
+
+- name: Copy gatus systemd service
+  synchronize:
+    src: ./etc/containers/systemd/gatus.container
+    dest: /etc/containers/systemd/gatus.container
+    rsync_opts:
+    - "--chown=root:root"
+  become: yes
+
+- name: Copy gatus configuration
+  synchronize:
+    src: ./opt/gatus/config/{{ item }}
+    dest: /opt/gatus/config/{{ item }}
+    rsync_opts:
+    - "--chown=root:root"
+  become: yes
+  with_items:
+    - config.yaml
+
+- name: Reload systemd daemon
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+  become: true
+
+- name: Start and enable service
+  systemd:
+    name: gatus
+    enabled: true
+    state: started
+  become: true
+
+- name: Copy Certificates
+  ansible.builtin.copy:
+    src: /etc/ssl/gatus.ocplab.com/{{ item }}
+    dest: /opt/gatus/config/{{ item }}
+    remote_src: true
+  become: yes
+  with_items:
+    - gatus.ocplab.com.pem
+    - gatus.ocplab.com.key

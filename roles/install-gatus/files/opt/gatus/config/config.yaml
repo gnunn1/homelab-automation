@@ -1,0 +1,86 @@
+web:
+  port: 8080
+  tls:
+    certificate-file: /config/gatus.ocplab.com.pem
+    private-key-file: /config/gatus.ocplab.com.key
+
+endpoints:
+  - name: Hub Cluster
+    group: OpenShift
+    url: "https://api.hub.ocplab.com:6443/healthz"
+    interval: 30s
+    conditions:
+      - "[CONNECTED] == true"
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 7d"
+    maintenance-windows:
+      - start: "16:00"
+        duration: 16h
+        timezone: "America/Vancouver"
+        maintenance.every:
+          - Monday
+          - Tuesday
+          - Wednesday
+          - Thursday
+          - Friday
+      - start: "00:00"
+        duration: 24h
+        timezone: "America/Vancouver"
+        maintenance.every:
+          - Saturday
+          - Sunday
+  - name: Home Cluster
+    group: OpenShift
+    url: "https://api.home.ocplab.com:6443/healthz"
+    interval: 30s
+    conditions:
+      - "[CONNECTED] == true"
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 7d"
+    maintenance-windows:
+      - start: "16:00"
+        duration: 16h
+        timezone: "America/Vancouver"
+        maintenance.every:
+          - Monday
+          - Tuesday
+          - Wednesday
+          - Thursday
+          - Friday
+      - start: "00:00"
+        duration: 24h
+        timezone: "America/Vancouver"
+        maintenance.every:
+          - Saturday
+          - Sunday
+  - name: Keycloak
+    url: https://sso.ocplab.com
+    group: Service
+    interval: 30s
+    conditions:
+      - "[CONNECTED] == true"
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 7d"
+  - name: LDAP
+    url: tcp://infra-server:389
+    group: Service
+    interval: 30s
+    conditions:
+      - "[CONNECTED] == true"
+      - "[STATUS] == 200"
+  - name: Jellyfin
+    url: https://jellyfin.ocplab.com
+    group: Service
+    interval: 30s
+    conditions:
+      - "[CONNECTED] == true"
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 7d"
+  - name: UDR7
+    url: https://unifi.ocplab.com
+    group: Ubiquiti
+    interval: 30s
+    conditions:
+      - "[CONNECTED] == true"
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 7d"
