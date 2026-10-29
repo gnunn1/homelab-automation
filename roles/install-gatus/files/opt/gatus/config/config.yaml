@@ -4,6 +4,10 @@ web:
     certificate-file: /config/gatus.ocplab.com.pem
     private-key-file: /config/gatus.ocplab.com.key
 
+alerting:
+  slack:
+    url: "${SLACK_WEBHOOK_URL}"
+
 endpoints:
   - name: Hub Cluster
     group: OpenShift
@@ -67,7 +71,6 @@ endpoints:
     interval: 30s
     conditions:
       - "[CONNECTED] == true"
-      - "[STATUS] == 200"
   - name: Jellyfin
     url: https://jellyfin.ocplab.com
     group: Service
