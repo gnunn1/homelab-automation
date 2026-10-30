@@ -26,7 +26,7 @@
     # - {role: update-cert-permissions}
     # - {role: install-postgresql}
     # - {role: install-keycloak}
-    # - {role: install-gatus}
+    - {role: install-gatus}
     # - {role: install-homeassistant}
     # - {role: install-homey}
     # - {role: install-prometheus}

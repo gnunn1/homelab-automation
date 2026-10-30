@@ -7,8 +7,10 @@ Image=ghcr.io/twin/gatus:latest
 ContainerName=gatus
 PublishPort=7443:8080
 Volume=/opt/gatus/config:/config:ro,Z
+Volume=/opt/gatus/data:/data
 Environment=TZ=UTC
 EnvironmentFile=/opt/gatus/gatus.env
+AddCapability=CAP_NET_RAW
 
 [Service]
 #Restart=always

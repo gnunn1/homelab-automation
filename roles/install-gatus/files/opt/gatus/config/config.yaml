@@ -1,3 +1,7 @@
+storage:
+  type: sqlite
+  path: "/data/data.db"
+
 web:
   port: 8080
   tls:
@@ -87,3 +91,21 @@ endpoints:
       - "[CONNECTED] == true"
       - "[STATUS] == 200"
       - "[CERTIFICATE_EXPIRATION] > 7d"
+  - name: UNAS2 (ping)
+    group: Ubiquiti
+    url: "icmp://192.168.1.3"
+    interval: 30s
+    conditions:
+      - "[CONNECTED] == true"
+  - name: UNAS2 (web)
+    group: Ubiquiti
+    url: "tcp://192.168.1.3:443"
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
+  - name: UNAS2 (smb)
+    group: Ubiquiti
+    url: "tcp://192.168.1.3:445"
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"

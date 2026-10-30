@@ -1,9 +1,12 @@
 - name: Make directory for gatus
   ansible.builtin.file:
-    path: /opt/gatus/config
+    path: /opt/gatus/{{ item }}
     state: directory
     mode: '0755'
   become: yes
+  with_items:
+    - config
+    - data
 
 - name: Copy Certificates that were previously created
   ansible.builtin.copy:
